@@ -19,7 +19,10 @@ return new class extends Migration
             $table->string('country', 30);
             $table->integer('duration');
             $table->string('img_url', 255);
+            $table->integer('screenwriters_id');
             $table->timestamps();
+
+            $table->foreign('screenwriters_id')->references('id')->on('screenwriters')->onDelete('cascade');
         });
     }
 
