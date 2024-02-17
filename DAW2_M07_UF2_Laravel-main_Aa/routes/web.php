@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\FilmController;
-use App\Http\Middleware\ValidateYear;
+use App\Http\Controllers\ActorsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,3 +39,9 @@ Route::middleware('img_url')->group(function() {
     });
 });
 
+//New group of actors with the prefix actorout
+Route::group(['prefix'=>'actorout'], function(){
+    Route::get('actors',[ActorsController::class, "listActors"])->name('actors');
+    Route::get('countActors',[ActorsController::class, "listCountActors"])->name('countActors');
+    Route::get('actorsByDecade/{decade?}',[ActorsController::class, "listactorsByDecade"])->name('actorsByDecade');
+});
