@@ -2,14 +2,27 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Models\Film;
 
 class FilmController extends Controller{
     /**
     * Read films from storage
     */
     public static function readFilms(): array {
-        $films = Storage::json('/public/films.json');
+        //Get films from storage and decode it.
+        $filmsfromStorage = json_decode(Storage::get('public/films.json'), true);
+        //Get films from DB and convert to array.
+        $filmsfromDB = DB::table('films')->get()->toArray();
+        //Convert filmsFromDB from an object stdClass to an asosiative arrays.
+        $filmsfromDBArray = [];
+            foreach ($filmsfromDB as $film) {
+            $filmsfromDBArray[] = (array) $film;
+        }
+
+        $films = array_merge($filmsfromStorage, $filmsfromDBArray);
+
         return $films;
     }
     /**
@@ -29,6 +42,7 @@ class FilmController extends Controller{
             if ($film['year'] < $year)
                 $old_films[] = $film;
         }
+        
         return view('films.list', ["films" => $old_films, "title" => $title]);
     }
     /**
@@ -175,8 +189,7 @@ class FilmController extends Controller{
     /**
     * Create a new film
     */
-    public function createFilm(Request $request)
-    {
+    public function createFilm(Request $request){
         //Get the form data
         $nombre = $request->input('nombre');
         $ano = $request->input('ano');
@@ -191,7 +204,7 @@ class FilmController extends Controller{
             return redirect('/')->with('error', 'This film already exists.');
         }
 
-        $film = [
+        $filmData = [
             'name' => $nombre,
             'year' => $ano,
             'genre' => $genero,
@@ -200,11 +213,27 @@ class FilmController extends Controller{
             'img_url' => $img_url ?: '',
         ];
 
-        $films = $this->readFilms();
-        // Add film
-        $films[] = $film;
-        // Update films
-        Storage::put('/public/films.json', json_encode($films));
+        //Decide where insert the data, JSON or SQL
+        $insertIntoJSON = false;
+
+        if ($insertIntoJSON === "true") {
+            //Insert film into JSON
+            $films = $this->readFilms();
+            $films[] = $filmData;
+            Storage::put('public/films.json', json_encode($films));
+        } else {
+            // Insert into SQL
+            $film = new Film();
+            $film->name = $nombre;
+            $film->year = $ano;
+            $film->genre = $genero;
+            $film->country = $pais;
+            $film->duration = $duracion;
+            $film->img_url = $img_url ?: '';
+            $film->screenwriters_id  = 1;
+            $film->save();
+        }
+
         return $this->listFilms();
     }
 }

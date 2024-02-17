@@ -38,6 +38,28 @@
         <br>
         <input type="submit" class="btn btn-outline-info" value="Enviar">
     </form>
+
+    <h2 class="mt-5">🎭​ LIST OF ACTORS 🎭​</h2>
+    <ul class="mt-3 list-group list-group-flush list-unstyled">
+        <li><a href=/actorout/actors class="list-group-item list-group-item-action list-group-item-info" >🎬 Actors</a></li>
+        <li><a href=/actorout/countActors class="list-group-item list-group-item-action list-group-item-info">🎬 Total numbers of actors</a></li>
+    </ul>
+
+    <!--New Form where search actors by decade-->
+    <form class="mt-5" action="{{route('actorsByDecade')}}" method="get" id="formularioActores">
+        {{csrf_field()}}
+        <h2 class="mb-3">SEARCH ACTORS BY DECADE</h2>
+        <label for="decade">Decade:</label>
+        <select name="decade" style="background: none;border: none;" required>
+            <option value="option1">1980-1989</option>
+            <option value="option2">1990-1999</option>
+            <option value="option3">2000-2009</option>
+            <option value="option4">2010-2019</option>
+            <option value="option5">2020-2029</option>
+        </select>
+        <br>
+        <input type="submit" class="btn btn-outline-info" value="Enviar">
+    </form>
 </section>
 
 @endsection

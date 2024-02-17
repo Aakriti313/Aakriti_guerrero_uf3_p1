@@ -16,7 +16,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item pt-2">
-                    <p style="color: black;"><b>Activity 2 UF2. Films</b></p>
+                    <p style="color: black;"><b>Activity 2 UF2. Films | Activity 2 UF3. Actors</b></p>
                 </li>
             </ul>
         </div>
@@ -37,6 +37,7 @@
             <div class="pl-5">
                 <h5>Project information</h5>
                 <p>Alumn: Aakriti Guerrero  |  Course: DAW2  |  Activity: Activity 2 UF2. Films  |  Deadline: 20/12/2023</p>
+                <p>Alumn: Aakriti Guerrero  |  Course: DAW2  |  Activity: Activity 2 UF3. Actors  |  Deadline: 20/12/2023</p>
             </div>
             <div class="pl-5">
                 <h5>Usefuls links</h5>
