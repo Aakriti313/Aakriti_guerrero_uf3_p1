@@ -14,7 +14,8 @@ class FilmController extends Controller{
         //Get films from storage and decode it.
         $filmsfromStorage = json_decode(Storage::get('public/films.json'), true);
         //Get films from DB and convert to array.
-        $filmsfromDB = DB::table('films')->get()->toArray();
+        // $filmsfromDB = DB::table('films')->get()->toArray();
+        $filmsfromDB = Film::all()->toArray();
         //Convert filmsFromDB from an object stdClass to an asosiative arrays.
         $filmsfromDBArray = [];
             foreach ($filmsfromDB as $film) {

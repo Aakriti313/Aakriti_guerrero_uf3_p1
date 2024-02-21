@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Actor;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -10,7 +12,8 @@ class ActorsController extends Controller
     * Read actors from DB
     */
     public static function readActors(){
-        $actors = DB::table('actors')->get();
+        // $actors = DB::table('actors')->get();
+        $actors = Actor::all();
         return $actors;
     }
     /**
@@ -21,9 +24,9 @@ class ActorsController extends Controller
         $actors = ActorsController::readActors();
 
         //Convert to a PHP array
-        $actorsArray = $actors->toArray();
+        // $actorsArray = $actors->toArray();
 
-        return view('actors.list', ["actors" => $actorsArray, "title" => $title]);
+        return view('actors.list', ["actors" => $actors, "title" => $title]);
     }
     /**
     * List total number of actors
@@ -71,12 +74,13 @@ class ActorsController extends Controller
     * Delete actors
     */
     public function listDeleteActors($id){
-        $actors = DB::table('actors');
-        
-        if (!$actors) {
+        // $actors = DB::table('actors');
+        $actor = Actor::find($id);
+
+        if (!$actor) {
             return response()->json(['action' => 'delete', 'status' => false]);
         }
-        $deleted = $actors->delete($id);
+        $deleted = $actor->delete();
         
         return response()->json(['action' => 'delete', 'status' => $deleted]);
     }
